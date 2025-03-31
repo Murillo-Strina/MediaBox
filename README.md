@@ -16,7 +16,7 @@ MediaBox é uma aplicação full-stack para gerenciar e registrar filmes e anime
 - **Java**
 - **Spring Boot**
 - **Spring Data JPA**
-- **Banco de Dados:** MySQL
+- **Banco de Dados:** Firebase
 - **Maven**
 
 ### Front-end
