@@ -1,14 +1,18 @@
-import { useState } from 'react'
-import './App.css'
-import { app, auth, db } from './firebase/firebase'
+import { Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import Login from './pages/Login.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './styles/Global.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>MediaHub</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
