@@ -1,0 +1,163 @@
+:root {
+  --bg-color: #121212;
+  --card-color: #1f1f1f;
+  --accent-color: #f1c40f;
+  --text-color: #ffffff;
+
+  --switch-bg: #2a2a2a;
+  --switch-active-bg: #f1c40f;
+  --switch-knob: #ffffff;
+  --placeholder-color: #b3b3b3;
+  --input-bg: #2a2a2a;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto; 
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  margin: 0;
+  position: relative;
+}
+
+/* Alterado: sem position absolute e com margin-bottom */
+.switchContainer {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+/* Exemplo usando valores fixos, mas você pode substituí-los por unidades relativas para responsividade */
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 75px;
+  height: 40px;
+  background: var(--switch-bg);
+  display: block;
+  border-radius: 50px;
+  position: relative;
+  border: 2px solid var(--accent-color);
+  transition: 0.3s, transform 0.3s;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 30px;
+  height: 30px;
+  background: var(--switch-knob);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: var(--switch-active-bg);
+}
+
+input:checked + label:after {
+  left: calc(100% - 3px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 40px;
+}
+
+.switchText {
+  margin-top: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.card {
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.card h1 {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+}
+
+.forgotLink {
+  color: var(--accent-color);
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  label {
+    width: 60px;
+    height: 30px;
+  }
+
+  label:after {
+    width: 24px;
+    height: 24px;
+  }
+
+  .switchText {
+    font-size: 0.8rem;
+  }
+}
