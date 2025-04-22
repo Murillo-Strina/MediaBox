@@ -6,7 +6,39 @@ function Home() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
 
-  const [items, setItems] = useState([ ]);
+  const [items, setItems] = useState([   {
+    id: 1,
+    capa: '/capa1.jpg',
+    titulo: 'My Photo',
+    tipo: 'Imagem',
+    progresso: '100%',
+    dataInclusao: '20/04/25',
+    genero: 'Viagem',
+    comentario: 'Foto incrível!',
+    nota: 5
+  },
+  {
+    id: 2,
+    capa: '/capa2.jpg',
+    titulo: 'Cool Podcast Ep.',
+    tipo: 'Áudio',
+    progresso: 'Ep. 3/10',
+    dataInclusao: '18/04/25',
+    genero: 'Tech',
+    comentario: 'Entrevista muito boa',
+    nota: 4
+  },
+  {
+    id: 3,
+    capa: '/capa3.jpg',
+    titulo: 'Filme XYZ',
+    tipo: 'Vídeo',
+    progresso: 'Ainda não visto',
+    dataInclusao: '15/04/25',
+    genero: 'Drama',
+    comentario: 'Quero assistir em breve',
+    nota: 0
+  }, ]);
 
   useEffect(() => {
     function handleClickOutside(e) {

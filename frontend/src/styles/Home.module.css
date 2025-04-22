@@ -130,45 +130,53 @@
 }
 
 /* Capa */
-.table th:nth-child(2),
-.table td:nth-child(2) {
-    width: 15%;
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 5%;
 }
 
 /* Título */
-.table th:nth-child(3),
-.table td:nth-child(3) {
-    width: 10%;
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 10%;
 }
 
 /* Tipo */
-.table th:nth-child(4),
-.table td:nth-child(4) {
-    width: 12%;
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 10%;
 }
 
 /* Progresso */
-.table th:nth-child(5),
-.table td:nth-child(5) {
-    width: 15%;
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 10%;
 }
 
 /* Data de Inclusão */
-.table th:nth-child(6),
-.table td:nth-child(6) {
-    width: 10%;
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 12%;
 }
 
 /* Gênero */
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  width: 12%;
+}
 
+/* Comentário */
 .table th:nth-child(7),
-.table td:nth-child(7) {}
+.table td:nth-child(7) {
+  width: 10%;
+  text-align: left;
+}
 
+/* Nota */
 .table th:nth-child(8),
 .table td:nth-child(8) {
-    text-align: left;
-    width: 120px;
-    min-width: 120px;  
+  width: 20%;
+  text-align: center;
 }
 
 
