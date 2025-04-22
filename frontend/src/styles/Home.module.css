@@ -1,0 +1,201 @@
+:root {
+    --bg-color: #121212;
+    --input-bg: #2a2a2a;
+    --accent-color: #f1c40f;
+    --text-color: #ffffff;
+    --placeholder: #888;
+    --row-bg: #1f1f1f;
+    --row-gap: 0.5rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    margin: 0;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: var(--input-bg);
+}
+
+.logo img {
+    height: 36px;
+}
+
+.searchInput {
+    flex: 1;
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--text-color);
+}
+
+.searchInput::placeholder {
+    color: var(--placeholder);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.addButton {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.addButton:hover {
+    color: var(--accent-color);
+}
+
+.icon {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.profile {
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    margin-top: 12px;
+    right: 0;
+    top: 110%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.dropdown button {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.content {
+    flex: 1;
+    padding: 1rem;
+}
+
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0.5rem;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 var(--row-gap);
+    table-layout: auto;
+}
+
+.table thead tr {
+    background-color: var(--input-bg);
+}
+
+.table th {
+    padding: 1rem;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--accent-color);
+    text-align: left;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 4rem;
+}
+
+/* Capa */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 15%;
+}
+
+/* Título */
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 10%;
+}
+
+/* Tipo */
+.table th:nth-child(4),
+.table td:nth-child(4) {
+    width: 12%;
+}
+
+/* Progresso */
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 15%;
+}
+
+/* Data de Inclusão */
+.table th:nth-child(6),
+.table td:nth-child(6) {
+    width: 10%;
+}
+
+/* Gênero */
+
+.table th:nth-child(7),
+.table td:nth-child(7) {}
+
+.table th:nth-child(8),
+.table td:nth-child(8) {
+    text-align: left;
+    width: 120px;
+    min-width: 120px;  
+}
+
+
+.table tbody tr {
+    background-color: var(--row-bg);
+}
+
+.table tbody td {
+    padding: 1rem;
+    color: var(--text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table tbody td:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.table tbody td:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.capaImg {
+    width: 48px;
+    height: auto;
+    border-radius: 4px;
+}

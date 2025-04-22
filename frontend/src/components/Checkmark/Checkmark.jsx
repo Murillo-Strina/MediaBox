@@ -1,4 +1,4 @@
-import styles from './Checkmark.module.css';
+import styles from '../../styles/Checkmark.module.css';
 
 const Checkmark = () => (
   <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">

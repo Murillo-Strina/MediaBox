@@ -41,20 +41,15 @@ function Login() {
     setIsLoading(true);
     try {
       if (isLogin) {
-        // Login existente
         await signInWithEmailAndPassword(auth, email, password);
-        // Buscar perfil no Firestore
         const user = auth.currentUser;
         const snap = await getDoc(doc(db, 'Usuarios', user.uid));
         if (snap.exists()) {
           sessionStorage.setItem('userProfile', JSON.stringify(snap.data()));
         }
       } else {
-        // Novo cadastro
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        // Gravar perfil no Firestore
         await setDoc(doc(db, 'Usuarios', user.uid), { nome: name, email });
-        // Armazenar em sessão para uso imediato
         sessionStorage.setItem('userProfile', JSON.stringify({ nome: name, email }));
       }
       setIsSuccess(true);
