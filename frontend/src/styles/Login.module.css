@@ -3,7 +3,6 @@
   --card-color: #1f1f1f;
   --accent-color: #f1c40f;
   --text-color: #ffffff;
-
   --switch-bg: #2a2a2a;
   --switch-active-bg: #f1c40f;
   --switch-knob: #ffffff;
@@ -23,14 +22,14 @@
   position: relative;
 }
 
-/* Alterado: sem position absolute e com margin-bottom */
 .switchContainer {
-  margin-bottom: 2rem;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  gap: 0.2rem;
 }
 
 input[type="checkbox"] {
@@ -39,10 +38,8 @@ input[type="checkbox"] {
   visibility: hidden;
 }
 
-/* Exemplo usando valores fixos, mas você pode substituí-los por unidades relativas para responsividade */
 label {
   cursor: pointer;
-  text-indent: -9999px;
   width: 75px;
   height: 40px;
   background: var(--switch-bg);
@@ -128,6 +125,9 @@ label:active:after {
 }
 
 .forgotLink {
+  background: none;
+  border: none;
+  padding: 0;
   color: var(--accent-color);
   text-decoration: none;
   display: inline-block;
