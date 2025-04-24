@@ -1,0 +1,36 @@
+@import './vars.module.css';
+
+.profile {
+  position: relative;
+}
+
+.icon {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  margin-top: 12px;
+  right: 0;
+  top: 110%;
+  background-color: var(--input-bg);
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

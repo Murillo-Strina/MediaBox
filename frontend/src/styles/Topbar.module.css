@@ -1,0 +1,52 @@
+:root {
+    --bg-color: #121212;
+    --input-bg: #2a2a2a;
+    --accent-color: #f1c40f;
+    --text-color: #ffffff;
+    --placeholder: #888;
+  }
+  
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: var(--input-bg);
+  }
+  
+  .logo img {
+    height: 36px;
+  }
+  
+  .searchInput {
+    flex: 1;
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--text-color);
+  }
+  
+  .searchInput::placeholder {
+    color: var(--placeholder);
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .addButton {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+  
+  .addButton:hover {
+    color: var(--accent-color);
+  }
+  

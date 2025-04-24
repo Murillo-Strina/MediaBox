@@ -1,0 +1,19 @@
+@import './vars.module.css';
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.addButton {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.addButton:hover {
+  color: var(--accent-color);
+}

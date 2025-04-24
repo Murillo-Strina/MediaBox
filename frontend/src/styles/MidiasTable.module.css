@@ -1,0 +1,56 @@
+@import './vars.module.css';
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 var(--row-gap);
+  table-layout: auto;
+}
+
+.table thead tr {
+  background-color: var(--input-bg);
+}
+
+.table th {
+  padding: 1rem;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--accent-color);
+  text-align: left;
+}
+
+.table th:nth-child(1), .table td:nth-child(1) { width: 5%; }
+.table th:nth-child(2), .table td:nth-child(2) { width: 10%; }
+.table th:nth-child(3), .table td:nth-child(3) { width: 10%; }
+.table th:nth-child(4), .table td:nth-child(4) { width: 10%; }
+.table th:nth-child(5), .table td:nth-child(5) { width: 12%; }
+.table th:nth-child(6), .table td:nth-child(6) { width: 12%; }
+.table th:nth-child(7), .table td:nth-child(7) { width: 10%; text-align: left; }
+.table th:nth-child(8), .table td:nth-child(8) { width: 20%; text-align: center; }
+
+.table tbody tr {
+  background-color: var(--row-bg);
+}
+
+.table tbody td {
+  padding: 1rem;
+  color: var(--text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table tbody td:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.table tbody td:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.capaImg {
+  width: 48px;
+  height: auto;
+  border-radius: 4px;
+}

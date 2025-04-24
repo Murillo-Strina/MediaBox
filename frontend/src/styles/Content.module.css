@@ -1,0 +1,12 @@
+@import './vars.module.css';
+
+.content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem;
+}
