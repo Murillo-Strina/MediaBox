@@ -1,9 +1,11 @@
 :root {
-    --bg-color: #121212;
-    --input-bg: #2a2a2a;
+    --bg-color:     #121212;
+    --input-bg:     #2a2a2a;
     --accent-color: #f1c40f;
-    --text-color: #ffffff;
-    --placeholder: #888;
-    --row-bg: #1f1f1f;
-    --row-gap: 0.5rem;
-}
+    --text-color:   #ffffff;
+    --placeholder:  #888;
+    --row-bg:       #1f1f1f;
+    --row-gap:      0.5rem;
+    --bg-modal:     rgba(0,0,0,0.7);
+  }
+  

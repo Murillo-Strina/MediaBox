@@ -1,11 +1,5 @@
-:root {
-    --bg-color: #121212;
-    --input-bg: #2a2a2a;
-    --accent-color: #f1c40f;
-    --text-color: #ffffff;
-    --placeholder: #888;
-  }
-  
+@import './Vars.module.css';
+
   .topbar {
     display: flex;
     align-items: center;
@@ -35,6 +29,8 @@
   .actions {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
   }
   
   .addButton {
