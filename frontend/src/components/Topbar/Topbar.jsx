@@ -21,8 +21,6 @@ export default function Topbar({
         type="text"
         className={styles.searchInput}
         placeholder="Buscar por título ou tag…"
-        disabled
-        readOnly
       />
 
       <div className={styles.actions}>
