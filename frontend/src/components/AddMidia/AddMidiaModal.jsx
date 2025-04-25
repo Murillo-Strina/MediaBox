@@ -63,7 +63,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
     if (!form.capa) {
       alert('Por favor, faça upload da capa antes de salvar.');
       return;
-    }  
+    }
     const tags = (form.genero || '')
       .split(/[;\s]+/)
       .map(t => t.trim())
@@ -112,10 +112,16 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
               />
             </div>
             <div className={styles.cropActions}>
-              <button type="button" onClick={() => setCropping(false)}>
+              <button
+                type="button"
+                onClick={() => setCropping(false)}
+              >
                 Cancelar
               </button>
-              <button type="button" onClick={applyCrop}>
+              <button
+                type="submit"
+                onClick={applyCrop}
+              >
                 Aplicar Corte
               </button>
             </div>
@@ -150,7 +156,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
             />
 
             <select name="tipo" value={form.tipo} onChange={handleChange}>
-              {['Filme','Série','Anime','Livro','Mangá','Manhwa','Outro'].map(t => (
+              {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Outro'].map(t => (
                 <option key={t}>{t}</option>
               ))}
             </select>

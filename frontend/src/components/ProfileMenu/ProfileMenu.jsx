@@ -1,8 +1,15 @@
 import React, { useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/ProfileMenu.module.css';
 
 export default function ProfileMenu({ isOpen, onToggle }) {
   const ref = useRef(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -25,7 +32,7 @@ export default function ProfileMenu({ isOpen, onToggle }) {
       {isOpen && (
         <div className={styles.dropdown}>
           <button>Configurações</button>
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       )}
     </div>

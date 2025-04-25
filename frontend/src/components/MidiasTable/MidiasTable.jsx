@@ -1,14 +1,19 @@
-import React from 'react'
-import MidiaRow from './MidiaRow'
-import styles from '../../styles/MidiasTable.module.css'
+import React from 'react';
+import styles   from '../../styles/MidiasTable.module.css';
+import MidiaRow from './MidiaRow';
 
-export default function MidiasTable({ items, onRatingChange }) {
+export default function MidiasTable({
+  items,
+  selectedId,
+  onSelect,
+  onRatingChange
+}) {
   if (!items.length) {
     return (
       <div className={styles.emptyState}>
         <p>Nenhuma mídia cadastrada.</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -27,20 +32,17 @@ export default function MidiasTable({ items, onRatingChange }) {
           </tr>
         </thead>
         <tbody>
-          {items.map((item, idx) => (
+          {items.map(item => (
             <MidiaRow
-              key={item.id ?? idx}              
-              item={{
-                ...item,
-                genero: Array.isArray(item.genero)
-                  ? item.genero.join(', ')
-                  : item.genero
-              }}
+              key={item.id}
+              item={item}
+              isSelected={item.id === selectedId}
+              onSelect={() => onSelect(item)}
               onRatingChange={onRatingChange}
             />
           ))}
         </tbody>
       </table>
     </div>
-  )
+  );
 }

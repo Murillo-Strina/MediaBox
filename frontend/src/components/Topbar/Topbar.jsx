@@ -3,9 +3,8 @@ import styles from '../../styles/Topbar.module.css'
 import ProfileMenu from '../ProfileMenu/ProfileMenu'
 
 export default function Topbar({
-  search,
-  onSearch,
   onAdd,
+  onEdit,
   profileOpen,
   onToggleProfile
 }) {
@@ -25,6 +24,7 @@ export default function Topbar({
 
       <div className={styles.actions}>
         <button onClick={onAdd} className={styles.addButton}>＋</button>
+        <button onClick={onEdit} className={styles.editButton}>✏️</button>
         <ProfileMenu isOpen={profileOpen} onToggle={onToggleProfile}/>
       </div>
     </nav>
