@@ -141,3 +141,25 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+@media (max-width: 600px) {
+    .modal {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .cropContainer {
+        height: 180px;
+    }
+
+    .buttons {
+        flex-direction: column;
+
+        button {
+            width: 100%;
+        }
+    }
+}

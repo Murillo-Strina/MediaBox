@@ -17,3 +17,13 @@
 .addButton:hover {
   color: var(--accent-color);
 }
+
+@media (max-width: 600px) {
+  .actions {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .addButton {
+    margin: 0.5rem 0;
+  }
+}

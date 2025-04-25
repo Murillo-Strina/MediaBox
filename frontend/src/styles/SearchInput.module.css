@@ -13,3 +13,11 @@
 .searchInput::placeholder {
   color: var(--placeholder);
 }
+
+@media (max-width: 600px) {
+  .searchInput {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}

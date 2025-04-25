@@ -124,61 +124,23 @@
     text-align: left;
 }
 
+/* Adjusted column widths prioritizing Comentário */
 .table th:nth-child(1),
-.table td:nth-child(1) {
-    width: 4rem;
-}
-
-/* Capa */
-.table th:nth-child(1),
-.table td:nth-child(1) {
-  width: 5%;
-}
-
-/* Título */
+.table td:nth-child(1) { width: 6%; }   /* Capa */
 .table th:nth-child(2),
-.table td:nth-child(2) {
-  width: 10%;
-}
-
-/* Tipo */
+.table td:nth-child(2) { width: 14%;  /* Título */ }
 .table th:nth-child(3),
-.table td:nth-child(3) {
-  width: 10%;
-}
-
-/* Progresso */
+.table td:nth-child(3) { width: 9%;   /* Tipo */ }
 .table th:nth-child(4),
-.table td:nth-child(4) {
-  width: 10%;
-}
-
-/* Data de Inclusão */
+.table td:nth-child(4) { width: 9%;   /* Progresso */ }
 .table th:nth-child(5),
-.table td:nth-child(5) {
-  width: 12%;
-}
-
-/* Gênero */
+.table td:nth-child(5) { width: 9%;   /* Data de Inclusão */ }
 .table th:nth-child(6),
-.table td:nth-child(6) {
-  width: 12%;
-}
-
-/* Comentário */
+.table td:nth-child(6) { width: 9%;   /* Gênero */ }
 .table th:nth-child(7),
-.table td:nth-child(7) {
-  width: 10%;
-  text-align: left;
-}
-
-/* Nota */
+.table td:nth-child(7) { width: 34%;  /* Comentário*/ text-align: left; }
 .table th:nth-child(8),
-.table td:nth-child(8) {
-  width: 20%;
-  text-align: center;
-}
-
+.table td:nth-child(8) { width: 10%;  /* Nota */ text-align: center; }
 
 .table tbody tr {
     background-color: var(--row-bg);
@@ -206,4 +168,42 @@
     width: 48px;
     height: auto;
     border-radius: 4px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+    .topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .logo img {
+        height: 30px;
+        margin-bottom: 0.5rem;
+    }
+    .searchInput {
+        margin: 0.5rem 0;
+    }
+    .actions {
+        justify-content: space-between;
+        margin-top: 0.5rem;
+    }
+    .addButton {
+        margin-right: 0.5rem;
+    }
+    /* Hide least important columns on small screens */
+    .table th:nth-child(4),
+    .table th:nth-child(5),
+    .table th:nth-child(6),
+    .table th:nth-child(8),
+    .table td:nth-child(4),
+    .table td:nth-child(5),
+    .table td:nth-child(6),
+    .table td:nth-child(8) {
+        display: none;
+    }
+    .table th,
+    .table td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
 }

@@ -10,3 +10,12 @@
   overflow-x: auto;
   padding: 0.5rem;
 }
+
+@media (max-width: 600px) {
+  .content {
+    padding: 0.5rem;
+  }
+  .tableContainer {
+    padding: 0;  
+  }
+}

@@ -15,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: auto; 
+  height: auto;
   min-height: 100vh;
   background-color: var(--bg-color);
   margin: 0;
@@ -62,11 +62,11 @@ label:after {
   transition: 0.3s;
 }
 
-input:checked + label {
+input:checked+label {
   background: var(--switch-active-bg);
 }
 
-input:checked + label:after {
+input:checked+label:after {
   left: calc(100% - 3px);
   transform: translateX(-100%);
 }
@@ -138,26 +138,31 @@ label:active:after {
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .container {
-    padding: 1rem;
+    padding: 0.5rem;
   }
 
   .card {
-    width: 90%;
+    padding: 1rem;
+    width: 100%;
   }
 
-  label {
-    width: 60px;
-    height: 30px;
+  .input {
+    padding: 0.6rem;
+    font-size: 0.9rem;
   }
 
-  label:after {
-    width: 24px;
-    height: 24px;
+  .submitButton {
+    padding: 0.6rem;
+    font-size: 0.9rem;
   }
 
-  .switchText {
-    font-size: 0.8rem;
+  .forgotLink {
+    font-size: 0.9rem;
+  }
+
+  .switchContainer {
+    margin-top: 0.5rem;
   }
 }
