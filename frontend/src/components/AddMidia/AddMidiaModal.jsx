@@ -1,9 +1,15 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
-import getCroppedImg from '../../Utils/cropImage';
+import getCroppedImg from '../../utils/cropImage';
+import { auth, db } from '../../firebase/firebase.js';
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from 'firebase/firestore';
 import styles from '../../styles/AddMidiaModal.module.css';
 
-export default function AddMidiaModal({ onClose, onSubmit }) {
+export default function AddMidiaModal({ onClose, onSuccess }) {
   const [form, setForm] = useState({
     capa: '',
     titulo: '',
@@ -16,7 +22,6 @@ export default function AddMidiaModal({ onClose, onSubmit }) {
   });
   const backdropRef = useRef();
 
-  // Cropping state
   const [cropping, setCropping] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -27,16 +32,15 @@ export default function AddMidiaModal({ onClose, onSubmit }) {
     if (e.target === backdropRef.current) onClose();
   };
 
-  const handleFileChange = async e => {
+  const handleFileChange = e => {
     const file = e.target.files[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    setImageSrc(url);
+    setImageSrc(URL.createObjectURL(file));
     setCropping(true);
   };
 
-  const onCropComplete = useCallback((_, croppedPixels) => {
-    setCroppedAreaPixels(croppedPixels);
+  const onCropComplete = useCallback((_, pixels) => {
+    setCroppedAreaPixels(pixels);
   }, []);
 
   const applyCrop = async () => {
@@ -54,22 +58,46 @@ export default function AddMidiaModal({ onClose, onSubmit }) {
     setForm(f => ({ ...f, [name]: value }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const raw = form.genero || '';
-    const tags = raw.split(/[;\s]+/).map(t => t.trim()).filter(Boolean);
-    onSubmit({
-      ...form,
+    if (!form.capa) {
+      alert('Por favor, faça upload da capa antes de salvar.');
+      return;
+    }  
+    const tags = (form.genero || '')
+      .split(/[;\s]+/)
+      .map(t => t.trim())
+      .filter(Boolean);
+
+    const payload = {
+      titulo: form.titulo,
+      tipo: form.tipo,
+      progresso: form.progresso,
+      dataInclusao: form.dataInclusao || serverTimestamp(),
+      genero: tags,
+      comentario: form.comentario,
       nota: form.nota === '' ? 0 : Number(form.nota),
-      genero: tags
-    });
+      capa: form.capa,
+      createdAt: serverTimestamp()
+    };
+
+    const userId = auth.currentUser.uid;
+    const colRef = collection(db, 'Usuarios', userId, 'midias');
+    const docRef = await addDoc(colRef, payload);
+
+    onSuccess({ id: docRef.id, ...payload });
     onClose();
   };
 
   return (
-    <div ref={backdropRef} className={styles.backdrop} onClick={handleBackdropClick}>
+    <div
+      ref={backdropRef}
+      className={styles.backdrop}
+      onClick={handleBackdropClick}
+    >
       <div className={styles.modal}>
         <h2>Adicionar Mídia</h2>
+
         {cropping && imageSrc ? (
           <>
             <div className={styles.cropContainer}>
@@ -84,43 +112,95 @@ export default function AddMidiaModal({ onClose, onSubmit }) {
               />
             </div>
             <div className={styles.cropActions}>
-              <button onClick={() => setCropping(false)}>Cancelar</button>
-              <button onClick={applyCrop}>Aplicar Corte</button>
+              <button type="button" onClick={() => setCropping(false)}>
+                Cancelar
+              </button>
+              <button type="button" onClick={applyCrop}>
+                Aplicar Corte
+              </button>
             </div>
           </>
         ) : (
           <form onSubmit={handleSubmit}>
             <label className={styles.fileInputLabel}>
               {form.capa ? 'Alterar Capa' : 'Upload da Capa'}
-              <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} required />
+              <input
+                name="capa"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className={styles.fileInput}
+              />
             </label>
-            {form.capa && <img src={form.capa} alt="Preview Capa" className={styles.preview} />}
 
-            <input name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} required />
+            {form.capa && (
+              <img
+                src={form.capa}
+                alt="Preview Capa"
+                className={styles.preview}
+              />
+            )}
+
+            <input
+              name="titulo"
+              placeholder="Título"
+              value={form.titulo}
+              onChange={handleChange}
+              required
+            />
 
             <select name="tipo" value={form.tipo} onChange={handleChange}>
-              <option>Filme</option>
-              <option>Série</option>
-              <option>Anime</option>
-              <option>Livro</option>
-              <option>Mangá</option>
-              <option>Manhwa</option>
-              <option>Outro</option>
+              {['Filme','Série','Anime','Livro','Mangá','Manhwa','Outro'].map(t => (
+                <option key={t}>{t}</option>
+              ))}
             </select>
 
-            <input name="progresso" placeholder="Progresso" value={form.progresso} onChange={handleChange} />
+            <input
+              name="progresso"
+              placeholder="Progresso"
+              value={form.progresso}
+              onChange={handleChange}
+            />
 
-            <input name="dataInclusao" type="date" value={form.dataInclusao} onChange={handleChange} />
+            <input
+              name="dataInclusao"
+              type="date"
+              value={form.dataInclusao}
+              onChange={handleChange}
+            />
 
-            <input name="genero" placeholder="Gênero (tags ; ou espaço)" value={form.genero} onChange={handleChange} />
+            <input
+              name="genero"
+              placeholder="Gêneros (separe por ; ou espaço)"
+              value={form.genero}
+              onChange={handleChange}
+            />
 
-            <textarea name="comentario" placeholder="Comentário (mínimo 5 chars)" minLength={5} value={form.comentario} onChange={handleChange} />
+            <textarea
+              name="comentario"
+              placeholder="Comentário"
+              minLength={5}
+              value={form.comentario}
+              onChange={handleChange}
+            />
 
-            <input name="nota" type="number" min="0" max="10" placeholder="Nota (0–10)" value={form.nota} onChange={handleChange} />
+            <input
+              name="nota"
+              type="number"
+              min="0"
+              max="10"
+              placeholder="Nota (0–10)"
+              value={form.nota}
+              onChange={handleChange}
+            />
 
             <div className={styles.buttons}>
-              <button type="button" onClick={onClose}>Cancelar</button>
-              <button type="submit" className={styles.saveButton}>Salvar</button>
+              <button type="button" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className={styles.saveButton}>
+                Salvar
+              </button>
             </div>
           </form>
         )}

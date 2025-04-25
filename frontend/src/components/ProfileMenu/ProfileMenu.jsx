@@ -1,24 +1,24 @@
-import React, { useRef, useEffect } from 'react'
-import styles from '../../styles/ProfileMenu.module.css'
+import React, { useRef, useEffect } from 'react';
+import styles from '../../styles/ProfileMenu.module.css';
 
 export default function ProfileMenu({ isOpen, onToggle }) {
-  const ref = useRef(null)
+  const ref = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        onToggle(false)
+      if (ref.current && !ref.current.contains(e.target) && typeof onToggle === 'function') {
+        onToggle(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [onToggle])
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onToggle]);
 
   return (
     <div ref={ref} className={styles.profile}>
       <span
         className={styles.icon}
-        onClick={() => onToggle(open => !open)}
+        onClick={() => typeof onToggle === 'function' && onToggle(!isOpen)}
       >
         👤
       </span>
@@ -29,5 +29,5 @@ export default function ProfileMenu({ isOpen, onToggle }) {
         </div>
       )}
     </div>
-  )
+  );
 }

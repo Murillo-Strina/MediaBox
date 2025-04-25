@@ -54,3 +54,12 @@
   height: auto;
   border-radius: 4px;
 }
+
+.emptyState {
+  color: var(--text-color);
+  padding: 3rem;
+  text-align: center;
+  font-size: 1.125rem;
+  border-radius: 6px;
+}
+
