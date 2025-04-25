@@ -21,5 +21,4 @@ MediaBox é uma aplicação full-stack para gerenciar e registrar filmes e anime
 
 ### Front-end
 - **React**
-- **Axios** para requisições HTTP
 - **CSS/Styled Components** para estilização
