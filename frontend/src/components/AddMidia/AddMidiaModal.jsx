@@ -156,7 +156,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
             />
 
             <select name="tipo" value={form.tipo} onChange={handleChange}>
-              {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Outro'].map(t => (
+              {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Light Novel', 'Outro'].map(t => (
                 <option key={t}>{t}</option>
               ))}
             </select>
