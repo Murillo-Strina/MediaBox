@@ -11,7 +11,10 @@ export default function Topbar({
   return (
     <nav className={styles.topbar}>
       <div className={styles.logo}>
-        <img src={`${import.meta.env.BASE_URL}MediaBoxLogo.png`} alt="MediaBox Logo"/>
+      <img
+        src={`${import.meta.env.BASE_URL}MediaBoxLogo.png`}
+         alt="MediaBox Logo"
+      />
       </div>
 
       <input

@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return (
-    <BrowserRouter basename="/MediaBox">
       <Router basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
@@ -14,7 +13,6 @@ function App() {
           <Route path="/home" element={<Home />} />
         </Routes>
       </Router>
-    </BrowserRouter>
   )
 }
 
