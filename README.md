@@ -2,6 +2,10 @@
 
 MediaBox é uma aplicação full-stack para gerenciar e registrar filmes e animes assistidos, permitindo que o usuário avalie e organize seu acervo pessoal de mídias.
 
+## 🔗 Visite e teste o site
+
+👉 [MediaBox](https://Murillo-Strina.github.io/MediaBox/)
+
 ## 🚀 Funcionalidades
 
 - **🎥 Registro de Mídias:** Cadastro de filmes e animes com informações como nome, capa, sinopse, gênero e avaliação.
