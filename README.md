@@ -8,7 +8,7 @@ MediaBox é uma aplicação full-stack para gerenciar e registrar filmes e anime
 
 ## 🚀 Funcionalidades
 
-- **🎥 Registro de Mídias:** Cadastro de filmes e animes com informações como nome, capa, sinopse, gênero e avaliação.
+- **🎥 Registro de Mídias:** Cadastro de filmes e animes com informações como nome, capa, gênero e avaliação.
 - **📜 Listagem:** Visualização de todos os itens cadastrados.
 - **⭐ Avaliação:** Sistema simples para atribuir notas e comentários para cada mídia.
 - **🗂️ Organização Pessoal:** Um repositório pessoal para acompanhar e revisitar suas experiências cinematográficas e de animes.
