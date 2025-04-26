@@ -14,6 +14,8 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
+    const today = new Date().toISOString().split('T')[0]
+
     useEffect(() => {
         setForm({ ...media })
     }, [media])
@@ -73,7 +75,6 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
 
         onSuccess({ id: media.id, ...payload })
         onClose()
-
     }
 
     return (
@@ -102,18 +103,65 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
                     <form onSubmit={handleSubmit}>
                         <label className={styles.fileInputLabel}>
                             Upload da Capa
-                            <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className={styles.fileInput}
+                            />
                         </label>
                         {form.capa && <img src={form.capa} alt="Preview" className={styles.preview} />}
-                        <input name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} required />
+
+                        <input
+                            name="titulo"
+                            placeholder="Título"
+                            value={form.titulo}
+                            onChange={handleChange}
+                            required
+                        />
                         <select name="tipo" value={form.tipo} onChange={handleChange}>
-                            {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Outro'].map(t => <option key={t}>{t}</option>)}
+                            {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Outro'].map(t => (
+                                <option key={t}>{t}</option>
+                            ))}
                         </select>
-                        <input name="progresso" placeholder="Progresso" value={form.progresso} onChange={handleChange} />
-                        <input name="dataInclusao" type="date" value={form.dataInclusao} onChange={handleChange} />
-                        <input name="genero" placeholder="Gêneros" value={form.genero} onChange={handleChange} />
-                        <textarea name="comentario" placeholder="Comentário" minLength={5} value={form.comentario} onChange={handleChange} />
-                        <input name="nota" type="number" min="0" max="10" placeholder="Nota" value={form.nota} onChange={handleChange} />
+                        <input
+                            name="progresso"
+                            placeholder="Progresso"
+                            value={form.progresso}
+                            onChange={handleChange}
+                        />
+                        <input
+                            name="dataInclusao"
+                            type="date"
+                            min="1800-01-01"
+                            max={today}
+                            value={form.dataInclusao}
+                            onChange={handleChange}
+                        />
+                        <input
+                            name="genero"
+                            placeholder="Gêneros"
+                            value={form.genero}
+                            onChange={handleChange}
+                        />
+                        <textarea
+                            name="comentario"
+                            placeholder="Comentário"
+                            minLength={5}
+                            value={form.comentario}
+                            onChange={handleChange}
+                            rows={4}
+                            style={{ minHeight: '6rem', resize: 'vertical' }}
+                        />
+                        <input
+                            name="nota"
+                            type="number"
+                            min="0"
+                            max="5"
+                            placeholder="Nota"
+                            value={form.nota}
+                            onChange={handleChange}
+                        />
                         <div className={styles.buttons}>
                             <button type="button" onClick={onClose}>Cancelar</button>
                             <button type="submit" className={styles.saveButton}>Salvar</button>

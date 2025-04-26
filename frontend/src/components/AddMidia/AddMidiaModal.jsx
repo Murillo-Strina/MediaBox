@@ -20,8 +20,9 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
     comentario: '',
     nota: ''
   });
+  const commentRef = useRef(null);
   const backdropRef = useRef();
-
+  const today = new Date().toISOString().split('T')[0];
   const [cropping, setCropping] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -56,6 +57,10 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
   const handleChange = e => {
     const { name, value } = e.target;
     setForm(f => ({ ...f, [name]: value }));
+    if (name === 'comentario' && commentRef.current) {
+      commentRef.current.style.height = 'auto';
+      commentRef.current.style.height = commentRef.current.scrollHeight + 'px';
+    }
   };
 
   const handleSubmit = async e => {
@@ -172,6 +177,8 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
               name="dataInclusao"
               type="date"
               value={form.dataInclusao}
+              min="1800-01-01"
+              max={today}
               onChange={handleChange}
             />
 
@@ -186,16 +193,18 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
               name="comentario"
               placeholder="Comentário"
               minLength={5}
+              ref={commentRef}
               value={form.comentario}
               onChange={handleChange}
+              onInput={handleChange}
             />
 
             <input
               name="nota"
               type="number"
               min="0"
-              max="10"
-              placeholder="Nota (0–10)"
+              max="5"
+              placeholder="Nota (0–5)"
               value={form.nota}
               onChange={handleChange}
             />

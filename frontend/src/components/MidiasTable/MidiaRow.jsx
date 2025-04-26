@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/MidiasTable.module.css';
+import StarReview from '../StarReview/StarReview';
 
 export default function MidiaRow({
   item,
@@ -20,7 +21,8 @@ export default function MidiaRow({
       <td>{item.dataInclusao?.toDate?.().toLocaleDateString() || item.dataInclusao}</td>
       <td>{Array.isArray(item.genero) ? item.genero.join(', ') : item.genero}</td>
       <td title={item.comentario}>{item.comentario}</td>
-      <td>{item.nota}
+      <td>
+        <StarReview rating={item.nota} />
       </td>
     </tr>
   );
