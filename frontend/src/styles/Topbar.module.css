@@ -1,11 +1,15 @@
-@import './Vars.module.css';
-
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
   background-color: var(--input-bg);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.logo {
+  flex-shrink: 0;
 }
 
 .logo img {
@@ -13,7 +17,9 @@
 }
 
 .searchInput {
-  flex: 1;
+  flex: 1 1 300px;
+  min-width: 150px;
+  max-width: 1650px;
   margin: 0 1rem;
   padding: 0.5rem 1rem;
   background: var(--input-bg);
@@ -30,11 +36,12 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .addButton,
-.editButton {
+.editButton,
+.icon {
   font-size: 1.5rem;
   background: none;
   border: none;
@@ -44,6 +51,60 @@
 }
 
 .addButton:hover,
-.editButton:hover {
+.editButton:hover,
+.icon:hover {
   color: var(--accent-color);
+}
+
+@media (max-width: 1024px) {
+  .searchInput {
+    flex: 1 1 250px;
+    margin: 0 0.75rem;
+  }
+  .addButton,
+  .editButton,
+  .icon {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchInput {
+    flex: 1 1 200px;
+    margin: 0 0.5rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .addButton,
+  .editButton,
+  .icon {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .topbar {
+    padding: 0.5rem;
+  }
+  .logo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .searchInput {
+    order: 1;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  .actions {
+    order: 2;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+  .addButton,
+  .editButton,
+  .icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
 }

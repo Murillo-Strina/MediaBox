@@ -101,8 +101,14 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
       onClick={handleBackdropClick}
     >
       <div className={styles.modal}>
-        <h2>Adicionar Mídia</h2>
-
+        <div className={styles.modalHeader}>
+          <h2>Adicionar Mídia</h2>
+          <button
+            className={styles.closeButton}
+            onClick={onClose}
+            aria-label="Fechar"
+          >×</button>
+        </div>
         {cropping && imageSrc ? (
           <>
             <div className={styles.cropContainer}>

@@ -12,6 +12,7 @@
 }
 
 .modal {
+    position: relative;
     background: var(--input-bg);
     padding: 1.5rem;
     border-radius: 8px;
@@ -145,10 +146,25 @@
 .modal textarea {
     resize: none;
     overflow: hidden;
-    min-height: 4rem;      
-    line-height: 1.4;     
-  }
-  
+    min-height: 4rem;
+    line-height: 1.4;
+}
+
+.closeButton {
+    position: absolute;
+    top: 5px;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+}
+.closeButton:hover {
+    color: var(--accent-color);
+}
 
 @media (max-width: 600px) {
     .modal {

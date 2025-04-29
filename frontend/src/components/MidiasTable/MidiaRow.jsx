@@ -2,6 +2,17 @@ import React from 'react';
 import styles from '../../styles/MidiasTable.module.css';
 import StarReview from '../StarReview/StarReview';
 
+function formatDate(dateValue) {
+  if (dateValue?.toDate) {
+    return dateValue.toDate().toLocaleDateString();
+  }
+  if (typeof dateValue === 'string') {
+    const [year, month, day] = dateValue.split('-');
+    return `${day}-${month}-${year}`;
+  }
+  return '';
+}
+
 export default function MidiaRow({
   item,
   isSelected,
@@ -18,7 +29,7 @@ export default function MidiaRow({
       <td>{item.titulo}</td>
       <td>{item.tipo}</td>
       <td>{item.progresso}</td>
-      <td>{item.dataInclusao?.toDate?.().toLocaleDateString() || item.dataInclusao}</td>
+      <td>{formatDate(item.dataInclusao)}</td>
       <td>{Array.isArray(item.genero) ? item.genero.join(', ') : item.genero}</td>
       <td title={item.comentario}>{item.comentario}</td>
       <td>

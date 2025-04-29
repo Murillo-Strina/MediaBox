@@ -80,7 +80,14 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
     return (
         <div ref={backdropRef} className={styles.backdrop} onClick={handleBackdropClick}>
             <div className={styles.modal}>
-                <h2>Editar Mídia</h2>
+                <div className={styles.modalHeader}>
+                    <h2>Editar Mídia</h2>
+                    <button
+                        className={styles.closeButton}
+                        onClick={onClose}
+                        aria-label="Fechar"
+                    >×</button>
+                </div>
                 {cropping && imageSrc ? (
                     <>
                         <div className={styles.cropContainer}>
