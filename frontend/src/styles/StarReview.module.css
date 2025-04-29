@@ -26,10 +26,3 @@
         height: 28px;
     }
 }
-
-@media (max-width: 400px) {
-    .reviewStars {
-        width: 100px;
-        height: 24px;
-    }
-}
