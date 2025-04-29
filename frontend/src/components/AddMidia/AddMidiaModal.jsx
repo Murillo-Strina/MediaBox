@@ -70,7 +70,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
       return;
     }
     const tags = (form.genero || '')
-      .split(/[;\s]+/)
+      .split(/\s*,\s*/) 
       .map(t => t.trim())
       .filter(Boolean);
 
@@ -186,7 +186,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
 
             <input
               name="genero"
-              placeholder="Gêneros (separe por ; ou espaço)"
+              placeholder="Gêneros (separe por vírgula)"
               value={form.genero}
               onChange={handleChange}
             />

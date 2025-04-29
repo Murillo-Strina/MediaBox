@@ -53,9 +53,10 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
             : form.genero || ''
 
         const tags = raw
-            .split(/[;\s]+/)
+            .split(/\s*,\s*/) 
             .map(t => t.trim())
-            .filter(Boolean)
+            .filter(Boolean);
+      
 
         const payload = {
             titulo: form.titulo,
