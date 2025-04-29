@@ -95,11 +95,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
   };
 
   return (
-    <div
-      ref={backdropRef}
-      className={styles.backdrop}
-      onClick={handleBackdropClick}
-    >
+    <div ref={backdropRef}  className={styles.backdrop}   onClick={handleBackdropClick} >
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <h2>Adicionar Mídia</h2>

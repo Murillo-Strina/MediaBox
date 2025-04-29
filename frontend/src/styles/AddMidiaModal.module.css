@@ -179,6 +179,11 @@
         height: 180px;
     }
 
+    .closeButton {
+        font-size: 3rem;
+        top: 0px;
+    }
+
     .buttons {
         flex-direction: column;
 

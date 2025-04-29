@@ -68,20 +68,7 @@
   }
 }
 
-@media (max-width: 768px) {
-  .searchInput {
-    flex: 1 1 200px;
-    margin: 0 0.5rem;
-    padding: 0.4rem 0.8rem;
-  }
-  .addButton,
-  .editButton,
-  .icon {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 576px) {
+@media (max-width: 700px) {
   .topbar {
     padding: 0.5rem;
   }
@@ -89,6 +76,11 @@
     width: 100%;
     text-align: center;
     margin-bottom: 0.5rem;
+  }
+  .logo img {
+    height: 50px; 
+    width: auto; 
+    max-width: 100%; 
   }
   .searchInput {
     order: 1;
@@ -105,6 +97,6 @@
   .editButton,
   .icon {
     font-size: 1.5rem;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
   }
 }

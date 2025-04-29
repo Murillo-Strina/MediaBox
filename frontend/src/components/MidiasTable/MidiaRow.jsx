@@ -8,7 +8,7 @@ function formatDate(dateValue) {
   }
   if (typeof dateValue === 'string') {
     const [year, month, day] = dateValue.split('-');
-    return `${day}-${month}-${year}`;
+    return `${day}/${month}/${year}`;
   }
   return '';
 }
@@ -23,16 +23,16 @@ export default function MidiaRow({
       className={isSelected ? styles.selectedRow : ''}
       onClick={onSelect}
     >
-      <td>
+      <td data-cell="Capa">
         <img src={item.capa} alt={item.titulo} className={styles.capaImg}/>
       </td>
-      <td>{item.titulo}</td>
-      <td>{item.tipo}</td>
-      <td>{item.progresso}</td>
-      <td>{formatDate(item.dataInclusao)}</td>
-      <td>{Array.isArray(item.genero) ? item.genero.join(', ') : item.genero}</td>
-      <td title={item.comentario}>{item.comentario}</td>
-      <td>
+      <td data-cell="Título">{item.titulo}</td>
+      <td data-cell="Tipo">{item.tipo}</td>
+      <td data-cell="Progresso">{item.progresso}</td>
+      <td data-cell="Data de inclusão">{formatDate(item.dataInclusao)}</td>
+      <td data-cell="Gênero">{Array.isArray(item.genero) ? item.genero.join(', ') : item.genero}</td>
+      <td data-cell="Comentário" title={item.comentario}>{item.comentario}</td>
+      <td data-cell="Nota">
         <StarReview rating={item.nota} />
       </td>
     </tr>
