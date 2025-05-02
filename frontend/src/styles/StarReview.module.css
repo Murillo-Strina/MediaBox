@@ -1,28 +1,24 @@
 @import './vars.module.css';
 
 .reviewStars {
-    display: inline-block;
-    position: relative;
-    width: 180px;
-    height: 35px;
+    display: inline-flex;
+    gap: 4px;
+    font-size: 40px;
+    color: gray;
     user-select: none;
-    background: url("/StarReview_MediaBox.png") right / auto 100% no-repeat;
-}
-
-.reviewStars::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: var(--overlay-percent, 100%);
-    background: inherit;
-    filter: grayscale(1);
-}
-
-@media (max-width: 600px) {
+  }
+  
+  .starFilled {
+    color: gold;
+  }
+  
+  .starEmpty {
+    color: lightgray;
+  }
+  
+  @media (max-width: 600px) {
     .reviewStars {
-        width: 120px;
-        height: 28px;
+      font-size: 25px;
     }
-}
+  }
+  
