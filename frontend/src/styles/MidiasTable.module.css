@@ -119,6 +119,12 @@
   background-color: rgba(241, 196, 15, 0.1);
 }
 
+.fadeOut {
+  opacity: 0;
+  transform: scaleY(0.9);
+  transition: all 300ms ease;
+}
+
 @media (max-width: 1300px) {
 
   .table th:nth-child(5),

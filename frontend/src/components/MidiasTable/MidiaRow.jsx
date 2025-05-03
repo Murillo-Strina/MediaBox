@@ -17,10 +17,11 @@ export default function MidiaRow({
   item,
   isSelected,
   onSelect,
+  fadeOut = false
 }) {
   return (
     <tr
-      className={isSelected ? styles.selectedRow : ''}
+      className={`${isSelected ? styles.selectedRow : ''} ${fadeOut ? styles.fadeOut : ''}`}
       onClick={onSelect}
     >
       <td data-cell="Capa">

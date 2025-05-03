@@ -127,7 +127,6 @@
     text-align: left;
 }
 
-/* Adjusted column widths prioritizing Comentário */
 .table th:nth-child(1),
 .table td:nth-child(1) { width: 6%; }   /* Capa */
 .table th:nth-child(2),
@@ -168,12 +167,11 @@
 }
 
 .capaImg {
-    width: 48px;
+    width: 80px;
     height: auto;
     border-radius: 4px;
 }
 
-/* Responsive Styles for Mobile */
 @media (max-width: 768px) {
     .topbar {
         flex-direction: column;
@@ -193,7 +191,6 @@
     .addButton {
         margin-right: 0.5rem;
     }
-    /* Hide least important columns on small screens */
     .table th:nth-child(4),
     .table th:nth-child(5),
     .table th:nth-child(6),

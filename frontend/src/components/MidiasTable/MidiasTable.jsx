@@ -1,5 +1,5 @@
-import React from 'react';
-import styles   from '../../styles/MidiasTable.module.css';
+import React, { useState } from 'react';
+import styles from '../../styles/MidiasTable.module.css';
 import MidiaRow from './MidiaRow';
 
 export default function MidiasTable({
@@ -8,6 +8,16 @@ export default function MidiasTable({
   onSelect,
   onRatingChange
 }) {
+  const [removingId, setRemovingId] = useState(null);
+
+  const handleRemoveWithAnimation = (item) => {
+    setRemovingId(item.id);
+    setTimeout(() => {
+      onSelect({ ...item, remove: true });
+      setRemovingId(null);
+    }, 300);
+  };
+
   if (!items.length) {
     return (
       <div className={styles.emptyState}>
@@ -38,7 +48,7 @@ export default function MidiasTable({
               item={item}
               isSelected={item.id === selectedId}
               onSelect={() => onSelect(item)}
-              onRatingChange={onRatingChange}
+              fadeOut={item._removing === true}
             />
           ))}
         </tbody>

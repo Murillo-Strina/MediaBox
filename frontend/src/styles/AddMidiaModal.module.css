@@ -97,6 +97,15 @@
     cursor: pointer;
 }
 
+.buttons button[type="exclude"] {
+    background: var(--accent-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: #000;
+    cursor: pointer;
+}
+
 .buttons button[type="button"] {
     background: none;
     color: var(--text-color);
@@ -104,6 +113,7 @@
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
+    margin-right: auto;
 }
 
 .cropContainer {
@@ -126,6 +136,15 @@
 }
 
 .cropActions button[type="submit"] {
+    background: var(--accent-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: #000;
+    cursor: pointer;
+}
+
+.cropActions button[type="exclude"] {
     background: var(--accent-color);
     border: none;
     padding: 0.5rem 1rem;

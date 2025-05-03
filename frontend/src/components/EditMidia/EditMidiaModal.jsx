@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react'
 import Cropper from 'react-easy-crop'
 import getCroppedImg from '../../utils/cropImage'
 import { auth, db } from '../../firebase/firebase.js'
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { doc, updateDoc, serverTimestamp, deleteDoc } from 'firebase/firestore'
 import styles from '../../styles/AddMidiaModal.module.css'
 
 export default function EditMidiaModal({ media, onClose, onSuccess }) {
@@ -13,6 +13,8 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+    const [isDeleted, setIsDeleted] = useState(false);
+
 
     const today = new Date().toISOString().split('T')[0]
 
@@ -46,8 +48,29 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
         setForm(f => ({ ...f, [name]: value }))
     }
 
+    const handleDelete = async () => {
+        const confirm = window.confirm('Tem certeza que deseja excluir esta mídia?')
+        if (!confirm) return
+      
+        try {
+          const userId = auth.currentUser.uid
+          const ref = doc(db, 'Usuarios', userId, 'midias', media.id)
+      
+          setIsDeleted(true) 
+          await deleteDoc(ref)
+          setTimeout(() => {
+            onSuccess(null)
+          }, 50)
+      
+        } catch (error) {
+          console.error('Erro ao excluir mídia:', error)
+          alert('Ocorreu um erro ao excluir. Tente novamente.')
+        }
+      }
+    
     const handleSubmit = async e => {
         e.preventDefault()
+        if (isDeleted) return;
         const raw = Array.isArray(form.genero)
             ? form.genero.join(' ')
             : form.genero || ''
@@ -172,6 +195,7 @@ export default function EditMidiaModal({ media, onClose, onSuccess }) {
                         />
                         <div className={styles.buttons}>
                             <button type="button" onClick={onClose}>Cancelar</button>
+                            <button type="exclude" onClick={handleDelete}>Excluir</button>
                             <button type="submit" className={styles.saveButton}>Salvar</button>
                         </div>
                     </form>

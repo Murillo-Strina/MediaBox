@@ -72,8 +72,22 @@ export default function Home() {
   }
 
   const handleEditSuccess = updated => {
-    setItems(prev => prev.map(i => i.id === updated.id ? updated : i))
+    if (!updated) {
+      setItems(prev =>
+        prev.map(i =>
+          i.id === mediaEdit?.id ? { ...i, _removing: true } : i
+        )
+      )
+      setTimeout(() => {
+        setItems(prev => prev.filter(i => i.id !== mediaEdit?.id));
+        setMediaEdit(null)
+        setShowEditModal(false)
+      }, 300)
+    } else {
+      setItems(prev => prev.map(i => i.id === updated.id ? updated : i))
+    }
   }
+
 
   if (authLoading) return null
 
@@ -97,7 +111,9 @@ export default function Home() {
           onClose={() => setShowEditModal(false)}
           onSuccess={updated => {
             handleEditSuccess(updated)
-            setShowEditModal(false)
+            if (updated !== null) {
+              setShowEditModal(false)
+            }
           }}
         />
       )}
