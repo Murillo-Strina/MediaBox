@@ -8,6 +8,7 @@ import InfiniteLoader from '../components/InfiniteLoader/InfiniteLoader'
 import MidiasTable from '../components/MidiasTable/MidiasTable'
 import AddMidiaModal from '../components/AddMidia/AddMidiaModal'
 import EditMidiaModal from '../components/EditMidia/EditMidiaModal'
+import ProfileConfig from '../components/ProfileConfig/ProfileConfig';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [mediaEdit, setMediaEdit] = useState(null)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [showProfileConfig, setShowProfileConfig] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export default function Home() {
         )
       )
       setTimeout(() => {
-        setItems(prev => prev.filter(i => i.id !== mediaEdit?.id));
+        setItems(prev => prev.filter(i => i.id !== mediaEdit?.id))
         setMediaEdit(null)
         setShowEditModal(false)
       }, 300)
@@ -87,7 +89,6 @@ export default function Home() {
       setItems(prev => prev.map(i => i.id === updated.id ? updated : i))
     }
   }
-
 
   if (authLoading) return null
 
@@ -98,6 +99,7 @@ export default function Home() {
         onEdit={handleEditClick}
         profileOpen={profileOpen}
         onToggleProfile={setProfileOpen}
+        onOpenConfig={() => setShowProfileConfig(true)}
       />
       {showAddModal && (
         <AddMidiaModal
@@ -116,6 +118,9 @@ export default function Home() {
             }
           }}
         />
+      )}
+      {showProfileConfig && (
+        <ProfileConfig onClose={() => setShowProfileConfig(false)} />
       )}
       <InfiniteLoader loadMore={fetchMore} hasMore={hasMore}>
         <MidiasTable

@@ -47,13 +47,32 @@
   border: none;
   color: var(--text-color);
   cursor: pointer;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .addButton:hover,
 .editButton:hover,
 .icon:hover {
   color: var(--accent-color);
+}
+
+.profileIcon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-color);
+}
+
+.icon {
+  font-size: 1.6rem;
 }
 
 @media (max-width: 1024px) {

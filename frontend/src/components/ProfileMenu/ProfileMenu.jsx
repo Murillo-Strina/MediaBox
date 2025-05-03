@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/ProfileMenu.module.css';
 
-export default function ProfileMenu({ isOpen, onToggle }) {
+export default function ProfileMenu({ isOpen, onToggle,onOpenConfig, avatarRef}) {
   const ref = useRef(null);
   const navigate = useNavigate();
 
@@ -12,26 +12,30 @@ export default function ProfileMenu({ isOpen, onToggle }) {
   };
 
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target) && typeof onToggle === 'function') {
+    const handleClickOutside = e => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        !(avatarRef?.current?.contains(e.target))
+      ) {
         onToggle(false);
       }
-    }
+    };
+  
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [onToggle]);
-
+  }, [onToggle, avatarRef]);
+  
   return (
     <div ref={ref} className={styles.profile}>
-      <span
-        className={styles.icon}
-        onClick={() => typeof onToggle === 'function' && onToggle(!isOpen)}
-      >
-        👤
-      </span>
       {isOpen && (
         <div className={styles.dropdown}>
-          <button>Configurações</button>
+          <button onClick={() => {
+            onToggle(false);      
+            if (typeof onOpenConfig === 'function') onOpenConfig(); 
+          }}>
+            Configurações
+          </button>
           <button onClick={handleLogout}>Logout</button>
         </div>
       )}
