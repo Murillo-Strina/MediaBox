@@ -69,14 +69,17 @@ export default function Home() {
     if (firstLoadRef.current) {
       if (docsData.length === 0) {
         toast.info(
-          'Bem-vindo(a)! Seu acervo está vazio — adicione algo incrível clicando no ‘+’'
+          'Bem-vindo(a)! Seu acervo está vazio — adicione algo incrível clicando no “+”'
         );
       } else {
-        const name = user.displayName || 'usuário';
-        toast.success(`Bem vindo de volta, ${name}!`);
+        if (user.displayName) {
+          toast.success(`Bem-vindo de volta, ${user.displayName}!`);
+        } else {
+          toast.success('Bem-vindo de volta!');
+        }
       }
       firstLoadRef.current = false;
-    }
+    }    
 
     setItems(prev => {
       const seen = new Set(prev.map(i => i.id));

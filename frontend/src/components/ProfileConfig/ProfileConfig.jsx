@@ -83,6 +83,9 @@ export default function ProfileConfig({ onClose }) {
       });
       toast.success('Perfil atualizado com sucesso!');
       onClose();
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);        
     } catch (err) {
       toast.error('Erro ao atualizar perfil: ' + err.message);
     }
