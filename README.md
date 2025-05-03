@@ -68,8 +68,7 @@ Tudo isso de forma **responsiva**, **performática** e com **persistência em Fi
 ## Como Usar
 
 1. Acesse o **site** no GitHub Pages:  
-
-[https://Murillo-Strina.github.io/MediaBox/](https://Murillo-Strina.github.io/MediaBox/)
+   [https://Murillo-Strina.github.io/MediaBox/](https://Murillo-Strina.github.io/MediaBox/)
 
 2. Na tela inicial, clique em **“Cadastre-se”** para criar sua conta.  
 3. Faça login com seu e-mail e senha.  
