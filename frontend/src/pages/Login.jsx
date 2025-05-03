@@ -9,6 +9,9 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import styles from "../styles/Login.module.css";
 import Checkmark from "../components/Checkmark/Checkmark.jsx";
+import { toast, ToastContainer } from 'react-toastify';
+import { toastConfig } from '../utils/toastConfig';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -83,68 +86,71 @@ function Login() {
     if (!input.checkValidity()) { input.reportValidity(); return; }
     try {
       await sendPasswordResetEmail(auth, email);
-      alert('Link de redefinição enviado! Verifique sua caixa de entrada.');
+      toast.success('Link de redefinição enviado! Verifique sua caixa de entrada.');
     } catch {
-      input.setCustomValidity('Não foi possível enviar o e‑mail'); input.reportValidity();
+      toast.error('Não foi possível enviar o e-mail');
     }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <h1>{isLogin ? 'Login' : 'Cadastre-se'}</h1>
-        <form onSubmit={handleSubmit} noValidate>
-          {!isLogin && (
+    <>
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <h1>{isLogin ? 'Login' : 'Cadastre-se'}</h1>
+          <form onSubmit={handleSubmit} noValidate>
+            {!isLogin && (
+              <input
+                type="text" placeholder="Seu Nome" autoComplete="name" required
+                className={styles.input} value={name}
+                onChange={e => { e.target.setCustomValidity(''); setName(e.target.value); }}
+                minLength={2}
+              />
+            )}
             <input
-              type="text" placeholder="Seu Nome" autoComplete="name" required
-              className={styles.input} value={name}
-              onChange={e => { e.target.setCustomValidity(''); setName(e.target.value); }}
-              minLength={2}
+              ref={emailRef} type="email" placeholder="Seu Email" autoComplete="email" required
+              className={styles.input} value={email}
+              onChange={e => { e.target.setCustomValidity(''); setEmail(e.target.value); }}
             />
-          )}
-          <input
-            ref={emailRef} type="email" placeholder="Seu Email" autoComplete="email" required
-            className={styles.input} value={email}
-            onChange={e => { e.target.setCustomValidity(''); setEmail(e.target.value); }}
-          />
-          <input
-            type="password" placeholder="Sua Senha" autoComplete={isLogin ? 'current-password' : 'new-password'} required
-            className={styles.input} value={password}
-            onChange={e => { e.target.setCustomValidity(''); setPassword(e.target.value); }}
-            minLength={6}
-          />
-          {!isLogin && (
             <input
-              type="password" placeholder="Confirme sua Senha" autoComplete="new-password" required
-              className={styles.input} value={confirmPassword}
-              onChange={e => { e.target.setCustomValidity(''); setConfirmPassword(e.target.value); }}
+              type="password" placeholder="Sua Senha" autoComplete={isLogin ? 'current-password' : 'new-password'} required
+              className={styles.input} value={password}
+              onChange={e => { e.target.setCustomValidity(''); setPassword(e.target.value); }}
               minLength={6}
             />
-          )}
-          {!isSuccess ? (
-            <button type="submit" className={styles.submitButton} disabled={isLoading}>
-              {isLoading ? (isLogin ? 'Entrando...' : 'Registrando...') : (isLogin ? 'Entrar' : 'Registrar')}
-            </button>
-          ) : (
-            <Checkmark />
-          )}
+            {!isLogin && (
+              <input
+                type="password" placeholder="Confirme sua Senha" autoComplete="new-password" required
+                className={styles.input} value={confirmPassword}
+                onChange={e => { e.target.setCustomValidity(''); setConfirmPassword(e.target.value); }}
+                minLength={6}
+              />
+            )}
+            {!isSuccess ? (
+              <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                {isLoading ? (isLogin ? 'Entrando...' : 'Registrando...') : (isLogin ? 'Entrar' : 'Registrar')}
+              </button>
+            ) : (
+              <Checkmark />
+            )}
 
-          {isLogin && (
-            <button type="button" className={styles.forgotLink} onClick={handleForgotPassword}>
-              Esqueceu sua senha?
-            </button>
-          )}
-        </form>
+            {isLogin && (
+              <button type="button" className={styles.forgotLink} onClick={handleForgotPassword}>
+                Esqueceu sua senha?
+              </button>
+            )}
+          </form>
 
-        <div className={styles.switchContainer}>
-          <span className={styles.switchText}>
-            {isLogin ? 'Novo por aqui? Deslize para se inscrever!' : 'Já é cadastrado? Faça o login!'}
-          </span>
-          <input type="checkbox" id="switch" checked={!isLogin} onChange={handleSwitch} />
-          <label htmlFor="switch"></label>
+          <div className={styles.switchContainer}>
+            <span className={styles.switchText}>
+              {isLogin ? 'Novo por aqui? Deslize para se inscrever!' : 'Já é cadastrado? Faça o login!'}
+            </span>
+            <input type="checkbox" id="switch" checked={!isLogin} onChange={handleSwitch} />
+            <label htmlFor="switch"></label>
+          </div>
         </div>
       </div>
-    </div>
+      <ToastContainer {...toastConfig} />
+    </>
   );
 }
 

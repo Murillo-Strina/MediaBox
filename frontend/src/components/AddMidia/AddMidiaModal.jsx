@@ -7,6 +7,9 @@ import {
   addDoc,
   serverTimestamp
 } from 'firebase/firestore';
+import { toast, ToastContainer } from 'react-toastify';
+import { toastConfig } from '../../utils/toastConfig';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/AddMidiaModal.module.css';
 
 export default function AddMidiaModal({ onClose, onSuccess }) {
@@ -66,11 +69,11 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
   const handleSubmit = async e => {
     e.preventDefault();
     if (!form.capa) {
-      alert('Por favor, faça upload da capa antes de salvar.');
+      toast.error('Por favor, faça upload da capa antes de salvar.');
       return;
     }
     const tags = (form.genero || '')
-      .split(/\s*,\s*/) 
+      .split(/\s*,\s*/)
       .map(t => t.trim())
       .filter(Boolean);
 
@@ -86,142 +89,159 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
       createdAt: serverTimestamp()
     };
 
-    const userId = auth.currentUser.uid;
-    const colRef = collection(db, 'Usuarios', userId, 'midias');
-    const docRef = await addDoc(colRef, payload);
-
-    onSuccess({ id: docRef.id, ...payload });
-    onClose();
+    try {
+      const userId = auth.currentUser.uid;
+      const colRef = collection(db, 'Usuarios', userId, 'midias');
+      const docRef = await addDoc(colRef, payload);
+      toast.success('Mídia adicionada com sucesso!');
+      onSuccess({ id: docRef.id, ...payload });
+      onClose();
+    } catch (err) {
+      toast.error('Erro ao adicionar mídia: ' + err.message);
+    }
   };
 
   return (
-    <div ref={backdropRef}  className={styles.backdrop}   onClick={handleBackdropClick} >
-      <div className={styles.modal}>
-        <div className={styles.modalHeader}>
-          <h2>Adicionar Mídia</h2>
-          <button
-            className={styles.closeButton}
-            onClick={onClose}
-            aria-label="Fechar"
-          >×</button>
-        </div>
-        {cropping && imageSrc ? (
-          <>
-            <div className={styles.cropContainer}>
-              <Cropper
-                image={imageSrc}
-                crop={crop}
-                zoom={zoom}
-                aspect={2 / 3}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-              />
-            </div>
-            <div className={styles.cropActions}>
-              <button
-                type="button"
-                onClick={() => setCropping(false)}
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                onClick={applyCrop}
-              >
-                Aplicar Corte
-              </button>
-            </div>
-          </>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <label className={styles.fileInputLabel}>
-              {form.capa ? 'Alterar Capa' : 'Upload da Capa'}
+    <>
+      <div
+        ref={backdropRef}
+        className={styles.backdrop}
+        onClick={handleBackdropClick}
+      >
+        <div className={styles.modal}>
+          <div className={styles.modalHeader}>
+            <h2>Adicionar Mídia</h2>
+            <button
+              className={styles.closeButton}
+              onClick={onClose}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+          </div>
+
+          {cropping && imageSrc ? (
+            <>
+              <div className={styles.cropContainer}>
+                <Cropper
+                  image={imageSrc}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={2 / 3}
+                  onCropChange={setCrop}
+                  onZoomChange={setZoom}
+                  onCropComplete={onCropComplete}
+                />
+              </div>
+              <div className={styles.cropActions}>
+                <button type="button" onClick={() => setCropping(false)}>
+                  Cancelar
+                </button>
+                <button type="button" onClick={applyCrop}>
+                  Aplicar Corte
+                </button>
+              </div>
+            </>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <label className={styles.fileInputLabel}>
+                {form.capa ? 'Alterar Capa' : 'Upload da Capa'}
+                <input
+                  name="capa"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className={styles.fileInput}
+                />
+              </label>
+
+              {form.capa && (
+                <img
+                  src={form.capa}
+                  alt="Preview Capa"
+                  className={styles.preview}
+                />
+              )}
+
               <input
-                name="capa"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className={styles.fileInput}
+                name="titulo"
+                placeholder="Título"
+                value={form.titulo}
+                onChange={handleChange}
+                required
               />
-            </label>
 
-            {form.capa && (
-              <img
-                src={form.capa}
-                alt="Preview Capa"
-                className={styles.preview}
+              <select name="tipo" value={form.tipo} onChange={handleChange}>
+                {[
+                  'Filme',
+                  'Série',
+                  'Anime',
+                  'Livro',
+                  'Mangá',
+                  'Manhwa',
+                  'Light Novel',
+                  'Outro'
+                ].map(t => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+
+              <input
+                name="progresso"
+                placeholder="Progresso"
+                value={form.progresso}
+                onChange={handleChange}
               />
-            )}
 
-            <input
-              name="titulo"
-              placeholder="Título"
-              value={form.titulo}
-              onChange={handleChange}
-              required
-            />
+              <input
+                name="dataInclusao"
+                type="date"
+                value={form.dataInclusao}
+                min="1800-01-01"
+                max={today}
+                onChange={handleChange}
+              />
 
-            <select name="tipo" value={form.tipo} onChange={handleChange}>
-              {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Light Novel', 'Outro'].map(t => (
-                <option key={t}>{t}</option>
-              ))}
-            </select>
+              <input
+                name="genero"
+                placeholder="Gêneros (separe por vírgula)"
+                value={form.genero}
+                onChange={handleChange}
+              />
 
-            <input
-              name="progresso"
-              placeholder="Progresso"
-              value={form.progresso}
-              onChange={handleChange}
-            />
+              <textarea
+                name="comentario"
+                placeholder="Comentário"
+                minLength={5}
+                ref={commentRef}
+                value={form.comentario}
+                onChange={handleChange}
+              />
 
-            <input
-              name="dataInclusao"
-              type="date"
-              value={form.dataInclusao}
-              min="1800-01-01"
-              max={today}
-              onChange={handleChange}
-            />
+              <input
+                name="nota"
+                type="number"
+                min="0"
+                max="5"
+                placeholder="Nota (0–5)"
+                value={form.nota}
+                onChange={handleChange}
+              />
 
-            <input
-              name="genero"
-              placeholder="Gêneros (separe por vírgula)"
-              value={form.genero}
-              onChange={handleChange}
-            />
-
-            <textarea
-              name="comentario"
-              placeholder="Comentário"
-              minLength={5}
-              ref={commentRef}
-              value={form.comentario}
-              onChange={handleChange}
-              onInput={handleChange}
-            />
-
-            <input
-              name="nota"
-              type="number"
-              min="0"
-              max="5"
-              placeholder="Nota (0–5)"
-              value={form.nota}
-              onChange={handleChange}
-            />
-
-            <div className={styles.buttons}>
-              <button type="button" onClick={onClose}>
-                Cancelar
-              </button>
-              <button type="submit" className={styles.saveButton}>
-                Salvar
-              </button>
-            </div>
-          </form>
-        )}
+              <div className={styles.buttons}>
+                <button type="button" onClick={onClose}>
+                  Cancelar
+                </button>
+                <button type="submit" className={styles.saveButton}>
+                  Salvar
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+
+      <ToastContainer {...toastConfig} />
+    </>
   );
 }

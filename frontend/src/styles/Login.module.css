@@ -86,7 +86,7 @@ label:active:after {
   background-color: var(--card-color);
   padding: 2rem;
   border-radius: 8px;
-  width: 300px;
+  width: 350px;
   text-align: center;
 }
 
@@ -144,8 +144,10 @@ label:active:after {
   }
 
   .card {
-    padding: 1rem;
-    width: 100%;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 350px;
+    text-align: center;
   }
 
   .input {

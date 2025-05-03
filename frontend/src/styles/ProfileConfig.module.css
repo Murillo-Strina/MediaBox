@@ -49,7 +49,7 @@
 
 .tabs {
     display: flex;
-    justify-content: space-evenly;
+    justify-content:space-evenly;
     gap: 1rem;
     margin-top: 0.5rem;
     border-bottom: 2px solid var(--row-bg);
@@ -142,6 +142,16 @@ input {
     border: none;
     cursor: pointer;
 }
+
+.deleteAccountButton {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }  
 
 
 .saveButton {
