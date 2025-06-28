@@ -9,29 +9,54 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 1rem;
 }
 
 .modal {
     position: relative;
     background: var(--input-bg);
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
     border-radius: 8px;
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 450px;
     color: var(--text-color);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 }
 
 .modal form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .modal h2 {
     margin: 0;
+    color: var(--accent-color);
+    font-size: 1.75rem;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.7;
+}
+
+.closeButton:hover {
+    opacity: 1;
     color: var(--accent-color);
 }
 
@@ -41,9 +66,16 @@
     background: var(--row-bg);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-    padding: 0.5rem;
-    resize: vertical;
+    padding: 0.75rem;
     color: var(--text-color);
+    font-size: 1rem;
+    width: 100%;
+}
+
+.modal textarea {
+    line-height: 1.6;
+    resize: vertical;
+    flex-grow: 1;
 }
 
 .fileInputLabel {
@@ -56,7 +88,6 @@
     border-radius: 4px;
     color: var(--placeholder);
     cursor: pointer;
-    margin-bottom: 0;
     overflow: hidden;
     position: relative;
     text-transform: uppercase;
@@ -74,46 +105,101 @@
 
 .preview {
     width: 100%;
-    max-height: 150px;
+    height: auto;
+    max-height: 200px;
     object-fit: cover;
     border-radius: 4px;
-    margin-top: -1rem;
-    margin-bottom: 1rem;
 }
 
+.formGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.formColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.genrePickerContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    max-height: 140px;
+    overflow-y: auto;
+}
+
+.genreButton {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color-light);
+    border: 1px solid transparent;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.genreButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.genreButton.selected {
+    background-color: var(--accent-color);
+    color: var(--input-bg);
+    font-weight: bold;
+    border-color: var(--accent-color);
+}
 
 .buttons {
     display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.5rem;
 }
 
-.buttons button[type="submit"] {
-    background: var(--accent-color);
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    color: #000;
-    cursor: pointer;
+.buttonGroupEnd {
+    display: flex;
+    gap: 0.75rem;
 }
 
-.buttons button[type="exclude"] {
-    background: var(--accent-color);
-    border: none;
-    padding: 0.5rem 1rem;
+.buttons button {
+    padding: 0.6rem 1.2rem;
     border-radius: 4px;
-    color: #000;
     cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: opacity 0.2s ease;
+}
+
+.buttons button:hover {
+    opacity: 0.85;
+}
+
+.buttons .saveButton {
+    background: var(--accent-color);
+    color: #000;
+}
+
+.buttons .deleteButton {
+    background-color: var(--exclude-color);
+    color: white;
+}
+
+.buttons .cancelButton {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .buttons button[type="button"] {
-    background: none;
     color: var(--text-color);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: auto;
 }
 
 .cropContainer {
@@ -124,90 +210,145 @@
     margin-bottom: 1rem;
 }
 
-.cropControls {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
 .cropActions {
     display: flex;
-    gap: 0.5rem;
+    width: 100%;
+    gap: 0.75rem;
+    justify-content: flex-end;
 }
 
-.cropActions button[type="submit"] {
-    background: var(--accent-color);
-    border: none;
-    padding: 0.5rem 1rem;
+.cropActions button {
+    padding: 0.6rem 1.2rem;
     border-radius: 4px;
-    color: #000;
     cursor: pointer;
-}
-
-.cropActions button[type="exclude"] {
-    background: var(--accent-color);
+    font-weight: bold;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    color: #000;
-    cursor: pointer;
 }
 
-.cropActions button[type="button"] {
+.cropActions button:first-child {
     background: none;
     color: var(--text-color);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 0.5rem 1rem;
+}
+
+.cropActions button:last-child {
+    background: var(--accent-color);
+    color: #000;
+}
+
+.confirmToast {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.confirmToast p {
+    margin: 0;
+}
+
+.confirmToastButtons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.genrePickerContainer::-webkit-scrollbar,
+.modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.genrePickerContainer::-webkit-scrollbar-track,
+.modal::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.genrePickerContainer::-webkit-scrollbar-thumb,
+.modal::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.genrePickerContainer::-webkit-scrollbar-thumb:hover,
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.confirmToastButtons .cancelButton {
+    background: none;
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.6rem 1.2rem;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s ease;
 }
 
-.modal textarea {
-    resize: none;
-    overflow: hidden;
-    min-height: 4rem;
-    line-height: 1.4;
+.confirmToastButtons .cancelButton:hover {
+    opacity: 0.85;
 }
 
-.closeButton {
-    position: absolute;
-    top: 5px;
-    right: 0.75rem;
-    background: none;
-    border: none;
-    color: var(--text-color);
-    font-size: 4rem;
-    line-height: 1;
+.confirmToastButtons .confirmButton {
+    background: var(--accent-color);
+    color: #000;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
     cursor: pointer;
-    padding: 0;
+    font-weight: bold;
+    border: none;
+    transition: opacity 0.2s ease;
 }
-.closeButton:hover {
-    color: var(--accent-color);
+
+.confirmToastButtons .confirmButton:hover {
+    opacity: 0.85;
+}
+
+@media (min-width: 800px) {
+    .modal {
+        max-width: 850px;
+    }
+
+    .formGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .formColumn:last-child {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 }
 
 @media (max-width: 600px) {
     .modal {
         width: 100%;
+        height: 100%;
         padding: 1rem;
         border-radius: 0;
-        height: 100%;
         overflow-y: auto;
     }
 
-    .cropContainer {
-        height: 180px;
+    .confirmToastButtons .cancelButton {
+        width: 50%;
+        ;
     }
 
-    .closeButton {
-        font-size: 3rem;
-        top: 0px;
+    .cancelButton {
+        width: 100%;
+        margin-bottom: 0.5rem;
     }
 
     .buttons {
         flex-direction: column;
+    }
 
-        button {
-            width: 100%;
-        }
+    .buttonGroupEnd {
+        width: 100%;
+        flex-direction: column;
     }
 }

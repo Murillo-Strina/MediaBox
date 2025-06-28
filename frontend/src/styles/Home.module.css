@@ -93,6 +93,10 @@
     cursor: pointer;
 }
 
+.mainContent {
+  padding-top: 60px;
+}
+
 .dropdown button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
@@ -171,7 +175,7 @@
     border-radius: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .topbar {
         flex-direction: column;
         align-items: stretch;
@@ -186,6 +190,9 @@
     .actions {
         justify-content: space-between;
         margin-top: 0.5rem;
+    }
+    .mainContent {
+        padding-top: 170px;
     }
     .addButton {
         margin-right: 0.5rem;

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../styles/MidiasTable.module.css';
 import StarReview from '../StarReview/StarReview';
 
@@ -31,7 +30,13 @@ export default function MidiaRow({
       <td data-cell="Tipo">{item.tipo}</td>
       <td data-cell="Progresso">{item.progresso}</td>
       <td data-cell="Data de inclusão">{formatDate(item.dataInclusao)}</td>
-      <td data-cell="Gênero">{Array.isArray(item.genero) ? item.genero.join(', ') : item.genero}</td>
+      <td data-cell="Gênero">
+        <div className={styles.genreContainer}>
+          {Array.isArray(item.genero) && item.genero.map((genre, index) => (
+            <span key={index} className={styles.genreBadge}>{genre}</span>
+          ))}
+        </div>
+      </td>
       <td data-cell="Comentário" title={item.comentario}>{item.comentario}</td>
       <td data-cell="Nota">
         <StarReview rating={item.nota} />

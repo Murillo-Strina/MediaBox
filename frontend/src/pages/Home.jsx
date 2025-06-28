@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase/firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -17,10 +17,16 @@ import AddMidiaModal from '../components/AddMidia/AddMidiaModal';
 import EditMidiaModal from '../components/EditMidia/EditMidiaModal';
 import ProfileConfig from '../components/ProfileConfig/ProfileConfig';
 import styles from '../styles/Home.module.css';
-
-import { toast, ToastContainer } from 'react-toastify';
-import { toastConfig } from '../utils/toastConfig';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const normalizeText = (text = '') => {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+};
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -35,6 +41,7 @@ export default function Home() {
   const [showProfileConfig, setShowProfileConfig] = useState(false);
   const navigate = useNavigate();
   const firstLoadRef = useRef(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => {
@@ -52,25 +59,15 @@ export default function Home() {
 
   const fetchMore = async () => {
     if (!mediaCol) return;
-
     let q = query(mediaCol, orderBy('dataInclusao', 'desc'), limit(20));
     if (lastDoc) {
-      q = query(
-        mediaCol,
-        orderBy('dataInclusao', 'desc'),
-        startAfter(lastDoc),
-        limit(20)
-      );
+      q = query(mediaCol, orderBy('dataInclusao', 'desc'), startAfter(lastDoc), limit(20));
     }
-
     const snap = await getDocs(q);
     const docsData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
     if (firstLoadRef.current) {
       if (docsData.length === 0) {
-        toast.info(
-          'Bem-vindo(a)! Seu acervo está vazio — adicione algo incrível clicando no “+”'
-        );
+        toast.info('Bem-vindo(a)! Seu acervo está vazio — adicione algo incrível clicando no “+”');
       } else {
         if (user.displayName) {
           toast.success(`Bem-vindo de volta, ${user.displayName}!`);
@@ -79,14 +76,12 @@ export default function Home() {
         }
       }
       firstLoadRef.current = false;
-    }    
-
+    }
     setItems(prev => {
       const seen = new Set(prev.map(i => i.id));
       const unique = docsData.filter(d => !seen.has(d.id));
       return [...prev, ...unique];
     });
-
     const last = snap.docs[snap.docs.length - 1];
     setLastDoc(last);
     setHasMore(snap.docs.length === 20);
@@ -127,6 +122,20 @@ export default function Home() {
     }
   };
 
+  const filteredItems = useMemo(() => {
+    if (!searchTerm) {
+      return items;
+    }
+    const normalizedTerm = normalizeText(searchTerm);
+    return items.filter(item => {
+      const titleMatch = normalizeText(item.titulo).includes(normalizedTerm);
+      const typeMatch = normalizeText(item.tipo).includes(normalizedTerm);
+      const genreMatch = Array.isArray(item.genero) && 
+        item.genero.some(genre => normalizeText(genre).includes(normalizedTerm));
+      return titleMatch || typeMatch || genreMatch;
+    });
+  }, [items, searchTerm]);
+
   if (authLoading) return null;
 
   return (
@@ -138,34 +147,37 @@ export default function Home() {
           profileOpen={profileOpen}
           onToggleProfile={setProfileOpen}
           onOpenConfig={() => setShowProfileConfig(true)}
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
         />
+        
+        <main className={styles.mainContent}>
+          {showAddModal && (
+            <AddMidiaModal onClose={() => setShowAddModal(false)} onSuccess={handleAddSuccess} />
+          )}
 
-        {showAddModal && (
-          <AddMidiaModal onClose={() => setShowAddModal(false)} onSuccess={handleAddSuccess} />
-        )}
+          {showEditModal && (
+            <EditMidiaModal
+              media={mediaEdit}
+              onClose={() => setShowEditModal(false)}
+              onSuccess={handleEditSuccess}
+            />
+          )}
 
-        {showEditModal && (
-          <EditMidiaModal
-            media={mediaEdit}
-            onClose={() => setShowEditModal(false)}
-            onSuccess={handleEditSuccess}
-          />
-        )}
+          {showProfileConfig && <ProfileConfig onClose={() => setShowProfileConfig(false)} />}
 
-        {showProfileConfig && <ProfileConfig onClose={() => setShowProfileConfig(false)} />}
-
-        <InfiniteLoader loadMore={fetchMore} hasMore={hasMore}>
-          <MidiasTable
-            items={items}
-            selectedId={mediaEdit?.id}
-            onSelect={handleRowClick}
-            onRatingChange={(id, nota) =>
-              setItems(prev => prev.map(i => (i.id === id ? { ...i, nota } : i)))
-            }
-          />
-        </InfiniteLoader>
+          <InfiniteLoader loadMore={fetchMore} hasMore={hasMore}>
+            <MidiasTable
+              items={filteredItems}
+              selectedId={mediaEdit?.id}
+              onSelect={handleRowClick}
+              onRatingChange={(id, nota) =>
+                setItems(prev => prev.map(i => (i.id === id ? { ...i, nota } : i)))
+              }
+            />
+          </InfiniteLoader>
+        </main>
       </div>
-      <ToastContainer {...toastConfig} />
     </>
   );
 }
