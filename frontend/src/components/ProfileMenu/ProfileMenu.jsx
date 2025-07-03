@@ -1,14 +1,21 @@
 import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/ProfileMenu.module.css';
+import { auth } from '../../firebase/firebase';
+import { signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 export default function ProfileMenu({ isOpen, onToggle, onOpenConfig, avatarRef }) {
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      toast.error('Não foi possível deslogar.');
+    }
   };
 
   useEffect(() => {
@@ -25,7 +32,7 @@ export default function ProfileMenu({ isOpen, onToggle, onOpenConfig, avatarRef 
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onToggle, avatarRef]);  
+  }, [isOpen, onToggle, avatarRef]);
 
   return (
     <div ref={menuRef} className={styles.profile}>

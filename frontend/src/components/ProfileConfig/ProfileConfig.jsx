@@ -10,12 +10,12 @@ import {
   reauthenticateWithCredential
 } from 'firebase/auth';
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { toast, ToastContainer } from 'react-toastify';
-import { toastConfig, toastConfirm } from '../../utils/toastConfig';
+import { toast } from 'react-toastify';
+import { toastConfirm } from '../../utils/toastConfig';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/ProfileConfig.module.css';
 
-export default function ProfileConfig({ onClose }) {
+export default function ProfileConfig({ onClose, onUpdateSuccess }) {
   const backdropRef = useRef();
   const user = auth.currentUser;
   const [activeTab, setActiveTab] = useState('profile');
@@ -82,10 +82,13 @@ export default function ProfileConfig({ onClose }) {
         displayName: form.displayName
       });
       toast.success('Perfil atualizado com sucesso!');
+      if (onUpdateSuccess) {
+        onUpdateSuccess({
+          displayName: form.displayName,
+          avatarBase64: form.avatarBase64,
+        });
+      }
       onClose();
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);        
     } catch (err) {
       toast.error('Erro ao atualizar perfil: ' + err.message);
     }
@@ -123,75 +126,72 @@ export default function ProfileConfig({ onClose }) {
     toastConfirm(
       'Tem certeza que deseja excluir sua conta?',
       doDelete,
-      () => {} 
+      () => {}
     );
   };
 
   return (
-    <>
-      <div ref={backdropRef} className={styles.backdrop} onClick={handleBackdropClick}>
-        <div className={styles.modal}>
-          <div className={styles.modalHeader}>
-            <h2>Configurações</h2>
-            <button className={styles.closeButton} onClick={onClose}>×</button>
-          </div>
-          <div className={styles.tabs}>
-            <button className={activeTab=== 'profile' ? styles.active : ''} onClick={()=>setActiveTab('profile')}>Editar Usuário</button>
-            <button className={activeTab=== 'security'? styles.active : ''} onClick={()=>setActiveTab('security')}>Segurança</button>
-            <button className={activeTab=== 'account'? styles.active : ''} onClick={()=>setActiveTab('account')}>Conta</button>
-          </div>
-          {cropping && imageSrc ? (
-            <>
-              <div className={styles.cropContainer}>
-                <Cropper
-                  image={imageSrc}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={1}
-                  onCropChange={setCrop}
-                  onZoomChange={setZoom}
-                  onCropComplete={onCropComplete}
-                  showGrid={false}
-                />
-              </div>
-              <div className={styles.cropActions}>
-                <button type="button" onClick={()=>setCropping(false)}>Cancelar</button>
-                <button type="button" onClick={applyCrop}>Salvar Foto</button>
-              </div>
-            </>
-          ) : activeTab === 'profile' ? (
-            <form onSubmit={e=>e.preventDefault()}>
-              <label className={styles.fileInputLabel}>
-                {form.avatarBase64 ? 'Alterar Foto' : 'Upload da Foto'}
-                <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput}/>
-              </label>
-              {form.avatarBase64 && <img src={form.avatarBase64} alt="Preview" className={styles.previewCircle}/>}
-              <input name="displayName" placeholder="Nome de Usuário" value={form.displayName} onChange={handleChange}/>
-              <div className={styles.buttons}>
-                <button type="button" onClick={onClose}>Cancelar</button>
-                <button type="button" className={styles.saveButton} onClick={handleSave}>Salvar</button>
-              </div>
-            </form>
-          ) : activeTab === 'security' ? (
-            <form onSubmit={e=>e.preventDefault()}>
-              <input type="password" name="currentPassword" placeholder="Senha Atual" value={form.currentPassword} onChange={handleChange}/>
-              <input type="password" name="newPassword" placeholder="Nova Senha" value={form.newPassword} onChange={handleChange}/>
-              <input type="password" name="confirmPassword" placeholder="Confirmar Nova Senha" value={form.confirmPassword} onChange={handleChange}/>
-              <div className={styles.buttons}>
-                <button type="button" onClick={onClose}>Cancelar</button>
-                <button type="button" className={styles.saveButton} onClick={handlePasswordChange}>Salvar Alterações</button>
-              </div>
-            </form>
-          ) : (
-            <form onSubmit={e=>e.preventDefault()}>
-              <button type="button" className={styles.deleteAccountButton} onClick={handleDelete}>
-                Excluir Conta
-              </button>
-            </form>
-          )}
+    <div ref={backdropRef} className={styles.backdrop} onClick={handleBackdropClick}>
+      <div className={styles.modal}>
+        <div className={styles.modalHeader}>
+          <h2>Configurações</h2>
+          <button className={styles.closeButton} onClick={onClose}>×</button>
         </div>
+        <div className={styles.tabs}>
+          <button className={activeTab === 'profile' ? styles.active : ''} onClick={() => setActiveTab('profile')}>Editar Usuário</button>
+          <button className={activeTab === 'security' ? styles.active : ''} onClick={() => setActiveTab('security')}>Segurança</button>
+          <button className={activeTab === 'account' ? styles.active : ''} onClick={() => setActiveTab('account')}>Conta</button>
+        </div>
+        {cropping && imageSrc ? (
+          <>
+            <div className={styles.cropContainer}>
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+                showGrid={false}
+              />
+            </div>
+            <div className={styles.cropActions}>
+              <button type="button" onClick={() => setCropping(false)}>Cancelar</button>
+              <button type="button" onClick={applyCrop}>Salvar Foto</button>
+            </div>
+          </>
+        ) : activeTab === 'profile' ? (
+          <form onSubmit={e => e.preventDefault()}>
+            <label className={styles.fileInputLabel}>
+              {form.avatarBase64 ? 'Alterar Foto' : 'Upload da Foto'}
+              <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} />
+            </label>
+            {form.avatarBase64 && <img src={form.avatarBase64} alt="Preview" className={styles.previewCircle} />}
+            <input name="displayName" placeholder="Nome de Usuário" value={form.displayName} onChange={handleChange} />
+            <div className={styles.buttons}>
+              <button type="button" onClick={onClose}>Cancelar</button>
+              <button type="button" className={styles.saveButton} onClick={handleSave}>Salvar</button>
+            </div>
+          </form>
+        ) : activeTab === 'security' ? (
+          <form onSubmit={e => e.preventDefault()}>
+            <input type="password" name="currentPassword" placeholder="Senha Atual" value={form.currentPassword} onChange={handleChange} />
+            <input type="password" name="newPassword" placeholder="Nova Senha" value={form.newPassword} onChange={handleChange} />
+            <input type="password" name="confirmPassword" placeholder="Confirmar Nova Senha" value={form.confirmPassword} onChange={handleChange} />
+            <div className={styles.buttons}>
+              <button type="button" onClick={onClose}>Cancelar</button>
+              <button type="button" className={styles.saveButton} onClick={handlePasswordChange}>Salvar Alterações</button>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={e => e.preventDefault()}>
+            <button type="button" className={styles.deleteAccountButton} onClick={handleDelete}>
+              Excluir Conta
+            </button>
+          </form>
+        )}
       </div>
-      <ToastContainer {...toastConfig} />
-    </>
+    </div>
   );
 }

@@ -4,9 +4,10 @@ import { auth, db } from '../firebase/firebase.js';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  updateProfile
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import styles from "../styles/Login.module.css";
 import Checkmark from "../components/Checkmark/Checkmark.jsx";
 import { toast, ToastContainer } from 'react-toastify';
@@ -22,58 +23,50 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
-
   const emailRef = useRef(null);
 
   const handleSwitch = () => {
     setIsLogin(!isLogin);
-    setEmail(''); setPassword(''); setName(''); setConfirmPassword('');
+    setEmail('');
+    setPassword('');
+    setName('');
+    setConfirmPassword('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+    setIsLoading(true);
+
     if (!isLogin && password !== confirmPassword) {
-      const confirmInput = form.querySelector('input[placeholder="Confirme sua Senha"]');
-      confirmInput.setCustomValidity('Senhas diferentes');
-      confirmInput.reportValidity();
+      toast.error('As senhas não coincidem.');
+      setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
-        const user = auth.currentUser;
-        const snap = await getDoc(doc(db, 'Usuarios', user.uid));
-        if (snap.exists()) {
-          sessionStorage.setItem('userProfile', JSON.stringify(snap.data()));
-        }
       } else {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(user, { displayName: name });
         await setDoc(doc(db, 'Usuarios', user.uid), { nome: name, email });
-        sessionStorage.setItem('userProfile', JSON.stringify({ nome: name, email }));
       }
       setIsSuccess(true);
       setTimeout(() => navigate('/home'), 1000);
     } catch (error) {
-      console.error('Erro Firebase:', error);
-      const formEl = document.querySelector('form');
-      const emailInput = formEl.querySelector('input[type="email"]');
-      const passwordInput = formEl.querySelector('input[type="password"]');
       switch (error.code) {
-        case 'auth/user-not-found':
-          emailInput.setCustomValidity('Usuário não encontrado'); emailInput.reportValidity();
-          break;
-        case 'auth/wrong-password':
-          passwordInput.setCustomValidity('Senha incorreta'); passwordInput.reportValidity();
+        case 'auth/invalid-credential':
+          toast.error('E-mail ou senha inválidos.');
           break;
         case 'auth/email-already-in-use':
-          emailInput.setCustomValidity('E-mail já cadastrado'); emailInput.reportValidity();
+          toast.error('Este e-mail já está cadastrado.');
+          break;
+        case 'auth/weak-password':
+          toast.error('A senha deve ter pelo menos 6 caracteres.');
           break;
         default:
-          passwordInput.setCustomValidity('Erro na autenticação'); passwordInput.reportValidity();
+          toast.error('Ocorreu um erro. Tente novamente.');
+          break;
       }
     } finally {
       setIsLoading(false);
@@ -82,13 +75,15 @@ function Login() {
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    const input = emailRef.current;
-    if (!input.checkValidity()) { input.reportValidity(); return; }
+    if (!email) {
+      toast.error('Por favor, digite seu e-mail para redefinir a senha.');
+      return;
+    }
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success('Link de redefinição enviado! Verifique sua caixa de entrada.');
     } catch {
-      toast.error('Não foi possível enviar o e-mail');
+      toast.error('Não foi possível enviar o e-mail de redefinição.');
     }
   };
 
@@ -102,26 +97,26 @@ function Login() {
               <input
                 type="text" placeholder="Seu Nome" autoComplete="name" required
                 className={styles.input} value={name}
-                onChange={e => { e.target.setCustomValidity(''); setName(e.target.value); }}
+                onChange={e => setName(e.target.value)}
                 minLength={2}
               />
             )}
             <input
               ref={emailRef} type="email" placeholder="Seu Email" autoComplete="email" required
               className={styles.input} value={email}
-              onChange={e => { e.target.setCustomValidity(''); setEmail(e.target.value); }}
+              onChange={e => setEmail(e.target.value)}
             />
             <input
               type="password" placeholder="Sua Senha" autoComplete={isLogin ? 'current-password' : 'new-password'} required
               className={styles.input} value={password}
-              onChange={e => { e.target.setCustomValidity(''); setPassword(e.target.value); }}
+              onChange={e => setPassword(e.target.value)}
               minLength={6}
             />
             {!isLogin && (
               <input
                 type="password" placeholder="Confirme sua Senha" autoComplete="new-password" required
                 className={styles.input} value={confirmPassword}
-                onChange={e => { e.target.setCustomValidity(''); setConfirmPassword(e.target.value); }}
+                onChange={e => setConfirmPassword(e.target.value)}
                 minLength={6}
               />
             )}
@@ -149,7 +144,6 @@ function Login() {
           </div>
         </div>
       </div>
-      <ToastContainer {...toastConfig} />
     </>
   );
 }

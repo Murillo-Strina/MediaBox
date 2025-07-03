@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import styles from '../../styles/Topbar.module.css';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
-import { auth, db } from '../../firebase/firebase';
-import { doc, getDoc } from 'firebase/firestore';
 import { FaPlus, FaPencilAlt } from 'react-icons/fa';
 import { CgProfile } from "react-icons/cg";
 
@@ -13,28 +11,10 @@ export default function Topbar({
   onToggleProfile,
   onOpenConfig,
   searchTerm,
-  onSearchChange
+  onSearchChange,
+  avatar
 }) {
-  const [avatar, setAvatar] = useState(null);
   const avatarRef = useRef();
-
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const ref = doc(db, 'Usuarios', user.uid);
-      const snap = await getDoc(ref);
-      if (snap.exists()) {
-        const data = snap.data();
-        if (data.avatarBase64) {
-          setAvatar(data.avatarBase64);
-        }
-      }
-    };
-
-    fetchAvatar();
-  }, []);
 
   return (
     <nav className={styles.topbar}>

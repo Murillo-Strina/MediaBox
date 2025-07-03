@@ -1,4 +1,3 @@
-import React from 'react';
 import { toast } from 'react-toastify';
 
 export const toastConfig = {
@@ -13,6 +12,8 @@ export const toastConfig = {
 };
 
 export function toastConfirm(message, onConfirm, onCancel) {
+  const toastId = `confirm-${Date.now()}`;
+
   toast.info(
     <div>
       <div>{message}</div>
@@ -23,7 +24,7 @@ export function toastConfirm(message, onConfirm, onCancel) {
         gap: '0.5rem'
       }}>
         <button
-          onClick={() => { onConfirm(); toast.dismiss(); }}
+          onClick={() => { onConfirm(); toast.dismiss(toastId); }}
           style={{
             background: '#e74c3c',
             color: '#fff',
@@ -36,7 +37,7 @@ export function toastConfirm(message, onConfirm, onCancel) {
           Sim
         </button>
         <button
-          onClick={() => { onCancel?.(); toast.dismiss(); }}
+          onClick={() => { onCancel?.(); toast.dismiss(toastId); }}
           style={{
             background: 'transparent',
             color: '#fff',
@@ -52,6 +53,7 @@ export function toastConfirm(message, onConfirm, onCancel) {
     </div>,
     {
       ...toastConfig,
+      toastId: toastId,
       icon: false,
       autoClose: false,
       closeOnClick: false,
