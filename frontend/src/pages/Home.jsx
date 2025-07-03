@@ -119,6 +119,7 @@ export default function Home() {
       setShowEditModal(false);
     } else {
       setItems(prev => prev.map(i => (i.id === updated.id ? updated : i)));
+      setShowEditModal(false);
     }
   };
 

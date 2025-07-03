@@ -155,7 +155,7 @@ export default function AddMidiaModal({ onClose, onSuccess }) {
                 {form.capa && (<img src={form.capa} alt="Preview Capa" className={styles.preview} />)}
                 <input name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} required />
                 <select name="tipo" value={form.tipo} onChange={handleChange}>
-                  {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Light Novel', 'Outro'].map(t => (<option key={t}>{t}</option>))}
+                  {['Filme', 'Série', 'Anime', 'Livro', 'Mangá', 'Manhwa', 'Light Novel'].map(t => (<option key={t}>{t}</option>))}
                 </select>
                 <input name="progresso" placeholder="Progresso" value={form.progresso} onChange={handleChange} />
                 <input name="dataInclusao" type="date" value={form.dataInclusao} min="1800-01-01" max={today} onChange={handleChange} />

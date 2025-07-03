@@ -333,9 +333,14 @@
         overflow-y: auto;
     }
 
-    .confirmToastButtons .cancelButton {
-        width: 50%;
-        ;
+    .confirmToastButtons 
+    {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .cancelButton {
+        width: 30%;
     }
 
     .cancelButton {
