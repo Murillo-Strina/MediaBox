@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
-import getCroppedImg from '../../utils/cropImage';
+import getCroppedImg from '../../utils/crop-image.js';
 import { auth, db } from '../../firebase/firebase.js';
 import { doc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
